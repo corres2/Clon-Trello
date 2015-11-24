@@ -1,0 +1,76 @@
+extends layout
+
+
+block content
+  script(src="/socket.io/socket.io.js").
+
+  script(type="text/javascript").
+    var URL = window.location.protocol + "//" + window.location.host;
+    console.log("CONECTADO A SOCKETS");
+    var socket = io.connect(URL);
+
+    socket.on('connect', function(){
+
+      socket.emit('primero',{'data':'primero'});
+
+      socket.on('tableros',function(data){ //aqui muestras los elementos que te regresa el servidor cuando el cliente se conecta
+        //document.getElementById("tableros").innerHTML = "<h1>data</h1>"; //
+            console.log(data);
+
+      });
+
+      /*
+      //con el click de un boton se crea un tablero, aun falta darle nombre con un campo de texto y tomar el id de usuario de alguna parte
+      $("#tablero").click(function(){ 
+        var tableroText=document.getElementById("tableroText").value;
+        console.log("CREANDO tablero");
+        socket.emit("tablero",{"creador":"123","nombre":"","informacion":"Aqui va la informacion de el tablero","usuarios":[{"id":123}]});
+      })
+
+
+    //Cuando se crea un nuevo tablero se regresa la informacion de la creacion
+    socket.on('creado', function(data){//da el id y los demas datos que se ingresaron en mongo
+      console.log(data.ops[0]._id+data.ops[0].creador+" "+data.ops[0].nombre+" "+data.ops[0].informacion);
+    });
+
+    $("#lista").click(function(){
+      var listaText=document.getElementById("listaText").value;
+      var tableroText=document.getElementById("tableroText").value;
+      console.log("CREANDO lista");
+      socket.emit("lista",{"tablero":tableroText},{"creador":"777","nombre":listaText,"usuarios":[{"id":123}]});
+    })
+
+    $("#tarjeta").click(function(){
+      var listaText=document.getElementById("listaText").value;
+      var tarjetaText=document.getElementById("tarjetaText").value;
+      var tableroText=document.getElementById("tableroText").value;
+      console.log("CREANDO tarjeta");
+      socket.emit("tarjeta",{"tablero":tableroText},{"lista":listaText},{"creador":"Mario","nombre":tarjetaText,"usuarios":[{"id":1008000}]});
+    })
+
+      */
+
+    })
+    
+  div(class="content-fluid")
+      div(class="row text-center panel panel-primary")
+        .panel-heading
+            h1 #{title}
+      br
+      br
+      div(class="row col-xs-8 col-sm-10 col-md-offset-1")
+         div(class="panel panel-info")#tableros
+            .panel-heading
+              h4 
+                  span(class="glyphicon glyphicon-user")
+                  |   Mis tableros
+            .panel-body
+              h4 tableros
+        div(class="row col-xs-8 col-sm-10 col-md-offset-1")
+           div(class="panel panel-info")
+              .panel-heading
+                h4 
+                    span(class="glyphicon glyphicon-user")
+                    |   Equipo
+              .panel-body
+                h4 tableros
