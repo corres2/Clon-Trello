@@ -15,8 +15,12 @@ block content
 
       socket.on('tableros',function(data){ //aqui muestras los elementos que te regresa el servidor cuando el cliente se conecta
         //document.getElementById("tableros").innerHTML = "<h1>data</h1>"; //
+        tab=document.getElementById("pb");
+            pb=document.getElementById("hh");
+            tab.appendChild(hh);
+            tab.appendChild(hh);
             console.log(data);
-
+            
       });
 
       /*
@@ -64,8 +68,9 @@ block content
               h4 
                   span(class="glyphicon glyphicon-user")
                   |   Mis tableros
-            .panel-body
-              h4 tableros
+            .panel-body(id="pb")
+              h4#hh tableros
+
         div(class="row col-xs-8 col-sm-10 col-md-offset-1")
            div(class="panel panel-info")
               .panel-heading
