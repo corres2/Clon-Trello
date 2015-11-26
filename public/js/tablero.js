@@ -1,0 +1,10 @@
+$(document).ready(function(){
+    $('#addlist').click(function(){
+    	$(this).hide();
+    	$('#newlist').show();
+    });
+    $('#cancelar').click(function(){
+    	$('#newlist').hide();
+    	$('#addlist').show();
+    });
+});
