@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  script(src="/socket.io/socket.io.js")
   div(class="content-fluid")
       div(class="row text-center panel panel-primary")
         .panel-heading
@@ -19,7 +20,7 @@ block content
                 br
                 input(type="text" class="form-control" id="exampleInputName2" placeholder="Nombre de la nueva lista")
                 br
-                a(class="btn btn-success col-md-offset-1")
+                a(class="btn btn-success col-md-offset-1" id="guardar")
                   | Guardar
                 a(class="btn btn-danger col-md-offset-1" id="cancelar")
                   | Cancelar
