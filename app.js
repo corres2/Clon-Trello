@@ -57,7 +57,7 @@ io.sockets.on('connection', function (socket) {
 		
 	});
 
-	/*
+	
 	socket.on("tablero",function(info){
 		datab.createCollection('tabl',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
 		  	if(err){
@@ -79,16 +79,24 @@ io.sockets.on('connection', function (socket) {
 
 	//se inserta una lista dentro del tablero nombrado, el nombre viene en 'tab.tablero'
 	socket.on("lista",function(tab,info){
-		var collection=datab.collection('tabl');
-		console.log(tab.tablero);
 		//con el push se mete en la parte de las listas del tablero nombrado
-		collection.update({"nombre":tab.tablero},{$push:{"listas":info}} ,{w:1}, function(err, result) {
-			if(!err){
-				console.log("se modifico la parte de las listas");
-			}else{
-				console.log(err);
-			}
-		});
+		datab.createCollection('tabl',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
+		  	if(err){
+		  		console.log("Error al crear el tablero "+err);
+		  	}else{// si se creo correctamente entonces
+		  		var collection=datab.collection('tabl');//se guarda la coleccion para modificarla
+		  		collection.insert(info, {w:1}, function(err, result) {//se inserta en la coleccion
+		  			if(result){//si se pudo insertar correctamante entonces 
+		  				socket.emit("creado",result);//se comunica al cliente y se le manda toda la info de la creacion
+		  				console.log(result.id+" se creo lista "+info.creador+info.nombre);//mensaje de prueba
+		  			}else{
+		  				console.log("no se creo nada!!")
+		  			}
+				//	collection.update({"usuarios"}, {$push:{usuarios:{doc2:1}}}, {w:1}, function(err, result) {});
+		  		});	
+		  		console.log("else");
+		  	}
+		  });
 	});
 
 
@@ -112,7 +120,7 @@ io.sockets.on('connection', function (socket) {
 		);
 		});
 	
-	*/
+	
 
 
 
