@@ -94,7 +94,6 @@ io.sockets.on('connection', function (socket) {
 		  			}
 				//	collection.update({"usuarios"}, {$push:{usuarios:{doc2:1}}}, {w:1}, function(err, result) {});
 		  		});	
-		  		console.log("else");
 		  	}
 		  });
 	});
