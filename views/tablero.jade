@@ -14,13 +14,9 @@ block content
               h4 
                   |   #{nombre}
             .panel-body
-              a(id="addlist" class="btn bg-primary btn-lg active")
-                | Agregar nueva lista
-              div(id="newlist" class="list-group col-md-3 bg-primary" style="display:none;")
-                br
-                input(type="text" class="form-control" id="exampleInputName2" placeholder="Nombre de la nueva lista")
-                br
-                a(class="btn btn-success col-md-offset-1" id="guardar")
+              div(class="list-group col-md-3" align="center" id="listnew")
+                input(type="text" class="form-control" id="addlist" placeholder="Nombre de la nueva lista")
+                a(class="btn btn-success col-md-offset-1" id="guardar" style="display:none;")
                   | Guardar
-                a(class="btn btn-danger col-md-offset-1" id="cancelar")
+                a(class="btn btn-danger col-md-offset-1" id="cancelar" style="display:none;")
                   | Cancelar

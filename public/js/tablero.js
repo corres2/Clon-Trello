@@ -8,20 +8,28 @@ $(document).ready(function(){
     });
 
     $('#addlist').click(function(){
-    	$(this).hide();
-    	$('#newlist').show();
-    	
-   
+        $('#guardar').show();
+        $('#cancelar').show();
+        $("#listnew").addClass("bg-primary");
+        //alert("Se creo lista llamada:");
 	})
      $('#cancelar').click(function(){
-    	$('#newlist').hide();
-    	$('#addlist').show();
+    	$('#guardar').hide();
+    	$('#cancelar').hide();
+        $("#listnew").removeClass("bg-primary");
+        $('#addlist').val('');
     });    
 
 	$('#guardar').click(function(){	
-	    list=$('#exampleInputName2').val();
-	    console.log(list);
+	    list=$('#addlist').val();
+	    //console.log(list);
 	    socket.emit('lista',{"tablero":"TABLERO"},{'creador':"LUISA","nombre":list});
+        $('#addlist').val('');
+        $('#guardar').hide();
+        $('#cancelar').hide();
+        $("#listnew").removeClass("bg-primary");
+        $("#listnew").after('<div class="list-group col-md-3 bg-primary"><h3>'+list+'</h3></div>');
+        //alert("Se creo lista llamada:"+list);
 	}); 
 })
 
