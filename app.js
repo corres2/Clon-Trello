@@ -97,6 +97,25 @@ io.sockets.on('connection', function (socket) {
 		  	}
 		  });
 	});
+	//esta funcion es para crear un nuevo usuario
+	socket.on("usuario",function(nom,email,pwd){		
+		datab.createCollection('user',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
+		  	if(err){
+		  		console.log("Error al crear el usuario "+err);
+		  	}else{// si se creo correctamente entonces
+		  		var collection=datab.collection('user');//se guarda la coleccion para modificarla
+		  		collection.insert(info, {w:1}, function(err, result) {//se inserta en la coleccion
+		  			if(result){//si se pudo insertar correctamante entonces 
+		  				socket.emit("creado",result);//se comunica al cliente y se le manda toda la info de la creacion
+		  				//se debe crear la tabla en la base de datos
+						//console.log(result.id+" se creo el usuario "+info.creador+info.nombre);//mensaje de prueba
+		  			}else{
+		  				console.log("no se creo nada!!")
+		  			}				
+		  		});	
+		  	}
+		  });
+	});
 
 
 	//crea las tarjetas
