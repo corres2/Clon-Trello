@@ -10,8 +10,8 @@ block content
     var socket = io.connect(URL);
 
     socket.on('connect', function(){
-
-      socket.emit('primero',{'data':'primero'});
+      var numerito=Math.floor(Math.random()*2-1+1);
+      socket.emit('primero',{'data':numerito});
 
       socket.on('tableros',function(data){ //aqui muestras los elementos que te regresa el servidor cuando el cliente se conecta
         //document.getElementById("tableros").innerHTML = "<h1>data</h1>"; //
