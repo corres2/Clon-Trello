@@ -2,12 +2,20 @@ $(document).ready(function(){
 	var URL = window.location.protocol + "//" + window.location.host;
     console.log("CONECTADO A SOCKETS EN TABLERO.JS");
     var socket = io.connect(URL);
-
+    var t;
     socket.on('connect', function(){
       var numerito=Math.floor(Math.random()*2-1+1);
       socket.emit('primero',{'data':numerito});
-      var t=$("#nn").text()
+      t=$("#nn").text()
       $("#nn").text(t+" "+numerito);
+      t=$("#nn").text()
+      socket.emit('ConectaTablero',{'id':t});//manda el nombre del tablero accedido para pedir sus listas
+    
+      socket.on("RecibeListas",function(item){//recibe las listas del tablero accedido para mostrarlas
+        console.log("listas "+item._id);
+        $("#listnew").after('<div class="list-group col-md-3 bg-primary"><p>'+item._id+'</p>'+'<h3>'+item.nombre+'</h3></div>');
+
+      })
     })
 
     $('#addlist').click(function(){
@@ -26,7 +34,8 @@ $(document).ready(function(){
 	$('#guardar').click(function(){	
 	    list=$('#addlist').val();
 	    //console.log(list);
-	    socket.emit('lista',{"tablero":"TABLERO"},{'creador':"LUISA","nombre":list});
+        t=$("#nn").text()
+	    socket.emit('lista',{"tablero":"TABLERO"},{'creador':"LUISA","nombre":list,"tablero":t});
         $('#addlist').val('');
         $('#guardar').hide();
         $('#cancelar').hide();

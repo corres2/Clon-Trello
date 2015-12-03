@@ -67,6 +67,16 @@ io.sockets.on('connection', function (socket) {
 		
 	});
 
+	socket.on("ConectaTablero",function(data){//recibe el nombre del tablero y saca las listas que pertenecen a este
+		var collection=datab.collection('tabl'); //establece la conexión con la colección llamada 'tabl' que es la que contiene a todos los tableros
+		var stream = collection.find({tablero:data.id}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
+		stream.on("data", function(item) {//si encuentra entradas entonces las mandamos al servidor
+			console.log(item);
+			socket.emit('RecibeListas',item);//manda las listas al cliente que lo pide
+		});
+		stream.on("end", function() {});
+	})
+
 	
 	socket.on("tablero",function(info){
 		datab.createCollection('tabl',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
