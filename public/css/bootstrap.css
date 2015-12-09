@@ -238,6 +238,9 @@ th {
   h3 {
     page-break-after: avoid;
   }
+  .simplea {
+    color: white;
+  }
   .navbar {
     display: none;
   }
