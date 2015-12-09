@@ -5,5 +5,5 @@ exports.index = function(req, res) {
 
 //Redireccionar a tableros
 exports.tablero = function(req, res){
-  res.render('tablero',{title: 'Tablero Prueba', nombre: 'Prueba'})
+  res.render('tablero',{title: 'Tablero Prueba', nombre: req.params.nametab})
 };
