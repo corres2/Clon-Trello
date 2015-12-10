@@ -36,20 +36,20 @@ Y por último instalamos nodemon con el siguiente comando:
 ```sh
 $ sudo npm -g nodemon
 ```
-### Los plugins de GEPETO son los siguientes: 
+##### Los plugins de GEPETO son los siguientes: 
 * md5
 
 
-### Version de GEPETO
+##### Version de GEPETO
 2.0
 
-### Integrantes
+##### Integrantes
  - Corres Sánchez Mario Enrique
  - Cruz González Diana Yadira
  - García Rodríguez Luisa Ivonne
  - Sánchez Salinas Cynthia Donaji
 
-## License
+##### License
 > Este proyecto fue realizado bajo la supervisión
 > del Ing. Oscar Uriel Pérez en la materia de 
 > Proyectos de Tecnologías de Información
