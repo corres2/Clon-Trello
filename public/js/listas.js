@@ -13,16 +13,16 @@ $(document).ready(function(){
     
       socket.on("RecibeListas",function(item){//recibe las listas del tablero accedido para mostrarlas
         console.log("listas "+item._id);
-        $("#listnew").after('<div class="list-group col-md-3 column" draggable="true"><div class="list-group-item active text-center tarjeta" id="'+item._id+'"><p>'+item._id+'</p>'+'<h3>'+item.nombre+'</h3><a href="#" class="addtarjeta" style="color:white;">Añadir nueva tarjeta</a><div id="target" style="display:none;"><input type="text" class="form-control" id="nametag" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
-                    /*h4.list-group-item-heading Agregar nueva lista
-                        input(type="text" class="form-control" id="addlist" placeholder="Nombre de la nueva lista")
-                        br
-                        a(class="btn btn-success col-md-offset-0" id="guardar")
-                          | Guardar
-                        a(class="btn btn-danger col-md-offset-1" id="cancelar")
-                          | Cancelar*/
+        $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta" id="t'+item._id+'"><p>'+item._id+'</p>'+'<h3 id="ip'+item._id+'">'+item.nombre+'</h3><a href="#" class="addtarjeta" id="'+item._id+'" style="color:white;">'+"agregar nueva tarjeta"+'</a><div id="m'+item._id+'" class="mostrar" style="display:none;"><input type="text" class="form-control" id="in'+item._id+'" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
       });
     });
+
+    socket.on('RecibeTarjetas',function(item){
+      console.log("tarjetas "+item._id);
+      $("#ip"+item.lista).after('<div class="row list-group col-md-13 col-xs-13 col-sm-13"><p class="list-group-item list-group-item-warning text-center">'+item.nombre+'</p></div>');
+
+    })
+
 
    $('#addlist').click(function(){
         $('#guardar').show();
@@ -59,10 +59,16 @@ $(document).ready(function(){
        // $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta"><p>'+data.ops[0]._id+'</p>'+'<h3>'+data.ops[0].nombre+'</h3><a href="#" class="addtarjeta" style="color:white;">Añadir nueva tarjeta</a></div></div>');
 
        //alert(data.ops[0]._id);
-        $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta" id="t'+data.ops[0]._id+'"><p>'+data.ops[0].nombre+'</p>'+'<h3 id="ip'+data.ops[0]._id+'">'+data.ops[0].nombre+'</h3><a href="#" class="addtarjeta" id="'+data.ops[0]._id+'" style="color:white;">'+data.ops[0]._id+'</a><div id="m'+data.ops[0]._id+'" class="mostrar" style="display:none;"><input type="text" class="form-control" id="in'+data.ops[0]._id+'" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
+        $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta" id="t'+data.ops[0]._id+'"><p>'+data.ops[0]._id+'</p>'+'<h3 id="ip'+data.ops[0]._id+'">'+data.ops[0].nombre+'</h3><a href="#" class="addtarjeta" id="'+data.ops[0]._id+'" style="color:white;">'+"agregar nueva tarjeta"+'</a><div id="m'+data.ops[0]._id+'" class="mostrar" style="display:none;"><input type="text" class="form-control" id="in'+data.ops[0]._id+'" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
 
         console.log(data.ops[0].creador+" ha creado la lista '"+data.ops[0].nombre+"'");
     });
+
+    socket.on('tablerocreado', function(data){
+      console.log("llego del creado de tablero ip"+data.ops[0].lista);
+      $("#ip"+data.ops[0].lista).after('<div class="row list-group col-md-13 col-xs-13 col-sm-13"><p class="list-group-item list-group-item-warning text-center">'+data.ops[0].nombre+'</p></div>');
+
+    })
 
     //Mostrar input para añadir lista
     $(document).on("click",".addtarjeta",function(event) {
@@ -91,15 +97,16 @@ $(document).ready(function(){
     $(document).on("click","#guardartar",function() {
       padre = $(this).parent();
       $.each( padre, function( key, value ){
+        console.log(value);
         nueva = (value.id).replace('m','');
         name=$('input#in'+nueva).val();
         t=$("#nn").text();
-        socket.emit('tarjeta',{"tablero":t},{'list':"rf","nombre":name});
+        socket.emit('tarjeta',{"tipo":"tarjeta","creador":"LUISA","nombre":name,"tablero":t,"lista":nueva});
         $('input#in'+nueva).val('');
         $('div#'+value.id).hide();
         $('a#'+nueva).show();
         //Agrega el nombre de tarjeta en la lista
-        $("h3#ip"+nueva).after('<div class="row list-group col-md-13 col-xs-13 col-sm-13"><p class="list-group-item list-group-item-warning text-center">'+name+'</p></div>');
+       // $("h3#ip"+nueva).after('<div class="row list-group col-md-13 col-xs-13 col-sm-13"><p class="list-group-item list-group-item-warning text-center">'+name+'</p></div>');
       });
     });
 });

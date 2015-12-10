@@ -71,14 +71,25 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on("ConectaTablero",function(data){//recibe el nombre del tablero y saca las listas que pertenecen a este
 		var collection=datab.collection('tabl'); //establece la conexión con la colección llamada 'tabl' que es la que contiene a todos los tableros
-		var stream = collection.find({tablero:data.id}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
+		var stream = collection.find({tablero:data.id,'tipo':'lista'}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
 		
 		stream.on("data", function(item) {//si encuentra entradas entonces las mandamos al servidor
 			console.log(item);
 			socket.emit('RecibeListas',item);//manda las listas al cliente que lo pide
 		});
 		stream.on("end", function() {});
+
+		var stream2 = collection.find({tablero:data.id,'tipo':'tarjeta',}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
+		
+		stream2.on("data", function(item2) {//si encuentra entradas entonces las mandamos al servidor
+			console.log(item2);
+			socket.emit('RecibeTarjetas',item2);//manda las listas al cliente que lo pide
+		});
+		stream2.on("end", function() {});
 	})
+
+
+
 
 	
 	socket.on("tablero",function(info){
@@ -131,24 +142,30 @@ io.sockets.on('connection', function (socket) {
 
 
 	//crea las tarjetas
-	socket.on("tarjeta",function(tab,list,info){
-		var collection=datab.collection('tabl');
-		console.log(tab.tablero+" "+list.lista);
-		//con el push se mete en la parte de las listas del tablero nombrado
-		collection.update({"nombre":tab.tablero,"listas.nombre":list.lista},{
-			$push:{
-				"listas.$.tarjetas":info
-			}},
-			{w:1}, 
-			function(err, result) {
-				if(!err){
-					console.log("se modifico la parte de las tarjetas");
-				}else{
-					console.log(err);
-				}
-			}
-		);
+	socket.on("tarjeta",function(info){
+		datab.createCollection('tabl',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
+		  	if(err){
+		  		console.log("Error al crear el tablero "+err);
+		  	}else{// si se creo correctamente entonces
+		  		var collection=datab.collection('tabl');//se guarda la coleccion para modificarla
+		  		collection.insert(info, {w:1}, function(err, result) {//se inserta en la coleccion
+		  			if(result){//si se pudo insertar correctamante entonces 
+		  				console.log(persona);
+		  				for( key in persona){//busca a las personas que estén en el mismo tablero para mandarles la lista recien creada
+		  					console.log("Entra al if");
+		  					if(persona[key]==persona[socket.username]){
+		  						connections[key].emit("tablerocreado",result);//se comunica al cliente y se le manda toda la info de la creacion
+		  					}
+		  				}
+		  				console.log(result.id+" se creo tablero "+info.creador+info.nombre);//mensaje de prueba
+		  			}else{
+		  				console.log("no se creo nada!!")
+		  			}
+		  		})
+		  	}
+
 		});
+	});
 	
 	//esta funcion es para crear un nuevo usuario
 	socket.on("usuario",function(info){		
