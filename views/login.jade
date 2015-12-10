@@ -2,7 +2,7 @@ extends layout
 
 block content
   script(src="/socket.io/socket.io.js")
-  script(src="/js/listas.js")
+  script(src="/js/login.js")
   div(class="content-fluid ")
       div(class="row text-center panel panel-primary")
         .panel-heading
@@ -13,16 +13,16 @@ block content
         div(class="col-md-9 col-xs-9 col-sm-9")
            div(class="panel panel-info")
               .panel-heading
-                h4#nn
+                h4
                     |   Sign Up
               .panel-body
                 .row
                   div(class="list-group col-md-3")
                       div(class="list-group-item active text-center")
                         h4.list-group-item-heading Sign Up
-                        input(type="text" class="form-control" id="adduser" placeholder="Nombre")
-                        input(type="text" class="form-control" id="adduser" placeholder="Correo Electronico")
-                        input(type="text" class="form-control" id="adduser" placeholder="Password")
+                        input(type="text" class="form-control" id="nombre" placeholder="Nombre")
+                        input(type="text" class="form-control" id="correo" placeholder="Correo Electronico")
+                        input(type="text" class="form-control" id="pass" placeholder="Password")
                         br
                         a(class="btn btn-success col-md-offset-0" id="guardar")
                           | Sign up for Github

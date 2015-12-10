@@ -13,7 +13,14 @@ $(document).ready(function(){
     
       socket.on("RecibeListas",function(item){//recibe las listas del tablero accedido para mostrarlas
         //console.log("listas "+item._id);
-        $("#listnew").after('<div class="list-group col-md-3 column" draggable="true"><div class="list-group-item active text-center tarjeta"><p>'+item._id+'</p>'+'<h3>'+item.nombre+'</h3><a href="#" class="addtarjeta" style="color:white;">Añadir nueva tarjeta</a><div id="target" style="display:none;"><input type="text" class="form-control" id="nametag" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
+        $("#listnew").after('<div class="list-group col-md-3 column" draggable="true"><div class="list-group-item active text-center tarjeta" id="'+item._id+'"><p>'+item._id+'</p>'+'<h3>'+item.nombre+'</h3><a href="#" class="addtarjeta" style="color:white;">Añadir nueva tarjeta</a><div id="target" style="display:none;"><input type="text" class="form-control" id="nametag" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
+                    /*h4.list-group-item-heading Agregar nueva lista
+                        input(type="text" class="form-control" id="addlist" placeholder="Nombre de la nueva lista")
+                        br
+                        a(class="btn btn-success col-md-offset-0" id="guardar")
+                          | Guardar
+                        a(class="btn btn-danger col-md-offset-1" id="cancelar")
+                          | Cancelar*/
       });
     });
 

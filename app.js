@@ -33,6 +33,7 @@ MongoClient.connect("mongodb://localhost:27017/tabl", function(err, db) {
 app.use(express.static(path.join(__dirname,'public')));
 //Marco la ruta de acceso y la vista a mostrar
 app.get('/', routes.index);
+app.get('/registro', routes.login);
 app.get('/tablero/:nametab', routes.tablero);
 /** 
 Configuracion del servidor socket.io
@@ -148,12 +149,12 @@ io.sockets.on('connection', function (socket) {
 		});
 	
 	//esta funcion es para crear un nuevo usuario
-	socket.on("usuario",function(nom,email,pwd){		
+	socket.on("usuario",function(info){		
 		datab.createCollection('user',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
 		  	if(err){
 		  		console.log("Error al crear el usuario "+err);
 		  	}else{// si se creo correctamente entonces
-		  		var collection=datab.collection('user');//se guarda la coleccion para modificarla
+		  		var collection=datab.collection('tabl');//se guarda la coleccion para modificarla
 		  		collection.insert(info, {w:1}, function(err, result) {//se inserta en la coleccion
 		  			if(result){//si se pudo insertar correctamante entonces 
 		  				socket.emit("creado",result);//se comunica al cliente y se le manda toda la info de la creacion
