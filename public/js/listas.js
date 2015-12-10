@@ -1,13 +1,13 @@
 $(document).ready(function(){
-	var URL = window.location.protocol + "//" + window.location.host;
+  var URL = window.location.protocol + "//" + window.location.host;
     console.log("CONECTADO A SOCKETS EN TABLERO.JS");
     var socket = io.connect(URL);
     var t;
     socket.on('connect', function(){
-      /*var numerito=Math.floor(Math.random()*2-1+1);
+      var numerito=Math.floor(Math.random()*2-1+1);
       socket.emit('primero',{'data':numerito});
       t=$("#nn").text()
-      $("#nn").text(t+" "+numerito);*/
+      //$("#nn").text(t+" "+numerito);
       t=$("#nn").text()
       socket.emit('ConectaTablero',{'id':t});//manda el nombre del tablero accedido para pedir sus listas
     
@@ -21,23 +21,23 @@ $(document).ready(function(){
         $('#guardar').show();
         $('#cancelar').show();
         //alert("Se creo lista llamada:");
-	   });
+     });
      $('#cancelar').click(function(){
-    	$('#guardar').hide();
-    	$('#cancelar').hide();
+      $('#guardar').hide();
+      $('#cancelar').hide();
         $('#addlist').val('');
     });    
 
-	$('#guardar').click(function(){	
-	    list=$('#addlist').val();
-	    //console.log(list);
+  $('#guardar').click(function(){ 
+      list=$('#addlist').val();
+      //console.log(list);
         t=$("#nn").text()
-	      socket.emit('lista',{"tablero":"TABLERO"},{'creador':"LUISA","nombre":list,"tablero":t});
+        socket.emit('lista',{"tablero":"TABLERO"},{'tipo':'lista','creador':"LUISA","nombre":list,"tablero":t});
         $('#addlist').val('');
         $('#guardar').hide();
         $('#cancelar').hide();
-        //alert("Se creo lista llamada:"+list);
-	}); 
+        alert("Se creo lista llamada:"+list);
+  }); 
 
     $('#addlist').keyup(function(e){//llama al click de el boton 'guardar'
         if(e.keyCode == 13){

@@ -58,7 +58,7 @@ io.sockets.on('connection', function (socket) {
 		console.log(socket.username);
 		console.log(data.data+' '+persona[socket.username])
 		var collection=datab.collection('tabl'); //establece la conexión con la colección llamada 'tabl' que es la que contiene a todos los tableros
-		var stream = collection.find({creador:'123'}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
+		var stream = collection.find({creador:'LUISA'}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
 		stream.on("data", function(item) {//si encuentra entradas entonces las mandamos al servidor
 			console.log(item);
 			socket.emit('tableros',item);//manda los tableros al cliente que lo pide
@@ -99,6 +99,7 @@ io.sockets.on('connection', function (socket) {
 
 	//se inserta una lista dentro del tablero nombrado, el nombre viene en 'tab.tablero'
 	socket.on("lista",function(tab,info){
+		console.log("conecta a lista");
 		//con el push se mete en la parte de las listas del tablero nombrado
 		datab.createCollection('tabl',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
 		  	if(err){
@@ -107,9 +108,12 @@ io.sockets.on('connection', function (socket) {
 		  		var collection=datab.collection('tabl');//se guarda la coleccion para modificarla
 		  		collection.insert(info, {w:1}, function(err, result) {//se inserta en la coleccion
 		  			if(result){//si se pudo insertar correctamante entonces 
+		  					console.log(persona);
 		  				for( key in persona){//busca a las personas que estén en el mismo tablero para mandarles la lista recien creada
+		  					console.log("Entra al if");
 		  					if(persona[key]==persona[socket.username]){
 		  						connections[key].emit("creado",result);//se comunica al cliente y se le manda toda la info de la creacion
+		  						
 		  					}
 						};	
 		  				console.log(result.id+" se creo lista "+info.creador+info.nombre);//mensaje de prueba
@@ -143,8 +147,7 @@ io.sockets.on('connection', function (socket) {
 		);
 		});
 	
-	
-//esta funcion es para crear un nuevo usuario
+	//esta funcion es para crear un nuevo usuario
 	socket.on("usuario",function(nom,email,pwd){		
 		datab.createCollection('user',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
 		  	if(err){
@@ -163,6 +166,8 @@ io.sockets.on('connection', function (socket) {
 		  	}
 		  });
 	});
+	
+
 
 
 	socket.on('disconnect', function(){
