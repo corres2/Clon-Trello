@@ -3,15 +3,18 @@ Gepeto es una aplicación basada en la web de aplicaciones de gestión de proyec
 ##### Requerimientos
   - Tener Ubuntu 12.04 o superior
   - Navegador web
-### Stack de Tecnologías
+
+
+##### Stack de Tecnologías
 GEPETO utiliza los siguientes stack de tecnologías:
 * [node.js] (http://jquery.com)
 * [Express] (http://jquery.com)
 * [jQuery] (http://jquery.com)
-* [jade] (hhtp://jade.com) 
+* [jade] (http://jade-lang.com/) 
 * [Boostrap](http://bootstrap.org)
 * [MongoDB] (http://jquery.com)
-### Instalación de GEPETO
+
+##### Instalación de GEPETO
 
 Primero necesitamos instalar Nodejs en nuestro ordenador:
 ```sh
@@ -35,15 +38,18 @@ $ sudo npm -g nodemon
 ```
 ### Los plugins de GEPETO son los siguientes: 
 * md5
+
+
 ### Version de GEPETO
 2.0
+
 ### Integrantes
  - Corres Sánchez Mario Enrique
  - Cruz González Diana Yadira
  - García Rodríguez Luisa Ivonne
  - Sánchez Salinas Cynthia Donaji
 
-License
+## License
 > Este proyecto fue realizado bajo la supervisión
 > del Ing. Oscar Uriel Pérez en la materia de 
 > Proyectos de Tecnologías de Información
