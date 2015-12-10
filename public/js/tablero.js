@@ -4,18 +4,17 @@ $(document).ready(function(){
     var socket = io.connect(URL);
     var t;
     socket.on('connect', function(){
-      var numerito=Math.floor(Math.random()*2-1+1);
-      socket.emit('primero',{'data':numerito});
+      socket.emit('primero',{'data':'tablero'});
       t=$("#nn").text()
       /*$("#nn").text(t+" "+numerito);*/
       t=$("#nn").text()
       socket.emit('ConectaTablero',{'id':t});//manda el nombre del tablero accedido para pedir sus listas
     
-      socket.on("RecibeListas",function(item){//recibe las listas del tablero accedido para mostrarlas
+    /*  socket.on("tableros",function(item){//recibe las listas del tablero accedido para mostrarlas
         //console.log("listas "+item._id);
         $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta"><p>'+item._id+'</p>'+'<h3>'+item.nombre+'</h3><a class="btn btn-danger col-md-offset-1 addtarjeta">Añadir</a></div></div>');
       });
-
+*/
       socket.on("tableros",function(item){
         $("#listnew").after('<div class="list-group col-md-3"><a href="/tablero/'+item._id+'" class="list-group-item active text-center"><h4 class="list-group-item-heading">'+item.nombre+'</h4><p class="list-group-item-text">Ingresa al tablero</p></a></div>');
       });
@@ -39,7 +38,7 @@ $(document).ready(function(){
   $('#guardar').click(function(){ 
       nametab=$('#nametab').val();
       //console.log(list);
-      socket.emit('tablero',{'creador':"LUISA","nombre":nametab});
+      socket.emit('tablero',{'tipo':'tablero','creador':"LUISA","nombre":nametab});
       $('#nametab').val('');
       $('#pdesc').show();
       $('#tablero').hide();

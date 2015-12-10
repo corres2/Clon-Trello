@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname,'public')));
 //Marco la ruta de acceso y la vista a mostrar
 app.get('/', routes.index);
 app.get('/signin', routes.signin);
+app.get('/login', routes.login);
 app.get('/tablero/:nametab', routes.tablero);
 /** 
 Configuracion del servidor socket.io
@@ -59,7 +60,7 @@ io.sockets.on('connection', function (socket) {
 		console.log(socket.username);
 		console.log(data.data+' '+persona[socket.username])
 		var collection=datab.collection('tabl'); //establece la conexión con la colección llamada 'tabl' que es la que contiene a todos los tableros
-		var stream = collection.find({creador:'LUISA'}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
+		var stream = collection.find({tipo:data.data}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
 		stream.on("data", function(item) {//si encuentra entradas entonces las mandamos al servidor
 			console.log(item);
 			socket.emit('tableros',item);//manda los tableros al cliente que lo pide
@@ -71,6 +72,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on("ConectaTablero",function(data){//recibe el nombre del tablero y saca las listas que pertenecen a este
 		var collection=datab.collection('tabl'); //establece la conexión con la colección llamada 'tabl' que es la que contiene a todos los tableros
 		var stream = collection.find({tablero:data.id}).stream();//busca en la colección, todas las entradas que tengan un creador con el nombre '123'
+		
 		stream.on("data", function(item) {//si encuentra entradas entonces las mandamos al servidor
 			console.log(item);
 			socket.emit('RecibeListas',item);//manda las listas al cliente que lo pide
@@ -99,7 +101,7 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	//se inserta una lista dentro del tablero nombrado, el nombre viene en 'tab.tablero'
-	socket.on("lista",function(tab,info){
+	socket.on("lista",function(info){
 		console.log("conecta a lista");
 		//con el push se mete en la parte de las listas del tablero nombrado
 		datab.createCollection('tabl',{w:1}, function(err, collection) {//en esta parte se crea la coleccion 
@@ -113,7 +115,7 @@ io.sockets.on('connection', function (socket) {
 		  				for( key in persona){//busca a las personas que estén en el mismo tablero para mandarles la lista recien creada
 		  					console.log("Entra al if");
 		  					if(persona[key]==persona[socket.username]){
-		  						connections[key].emit("creado",result);//se comunica al cliente y se le manda toda la info de la creacion
+		  						connections[key].emit("listacreada",result);//se comunica al cliente y se le manda toda la info de la creacion
 		  						
 		  					}
 						};	

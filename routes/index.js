@@ -12,3 +12,7 @@ exports.tablero = function(req, res){
 exports.signin = function(req, res){
   res.render('signin',{title: 'Registro de Usuarios', nombre: req.params.nametab})
 };
+
+exports.login = function(req, res){
+  res.render('login',{title: 'Registro de Usuarios', nombre: req.params.nametab})
+};

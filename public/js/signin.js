@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
   var URL = window.location.protocol + "//" + window.location.host;
-    console.log("CONECTADO A SOCKETS EN login.JS");
+    console.log("CONECTADO A SOCKETS EN signin.JS");
     var socket = io.connect(URL);
     var t;
     socket.on('connect', function(){
@@ -31,7 +31,6 @@ $(document).ready(function(){
         $('#nombre').val('');
          $('#correo').val('');
           $('#pass').val('');
-
         alert("Se creo usuario llamado: "+nombre);
   }); 
 

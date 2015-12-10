@@ -10,53 +10,9 @@ block content
     console.log("CONECTADO A SOCKETS");
     var socket = io.connect(URL);
 
-    socket.on('connect', function(){
-      var numerito=Math.floor(Math.random()*2-1+1);
-      socket.emit('primero',{'data':numerito});
-
-      socket.on('tableros',function(data){ //aqui muestras los elementos que te regresa el servidor cuando el cliente se conecta
-        //document.getElementById("tableros").innerHTML = "<h1>data</h1>"; //
-        tab=document.getElementById("pb");
-            pb=document.getElementById("hh");
-            //tab.appendChild(hh);
-            //tab.appendChild(hh);
-            console.log(data);
-            
-      });
-
-      /*
-      //con el click de un boton se crea un tablero, aun falta darle nombre con un campo de texto y tomar el id de usuario de alguna parte
-      $("#tablero").click(function(){ 
-        var tableroText=document.getElementById("tableroText").value;
-        console.log("CREANDO tablero");
-        socket.emit("tablero",{"creador":"123","nombre":"","informacion":"Aqui va la informacion de el tablero","usuarios":[{"id":123}]});
-      })
 
 
-    //Cuando se crea un nuevo tablero se regresa la informacion de la creacion
-    socket.on('creado', function(data){//da el id y los demas datos que se ingresaron en mongo
-      console.log(data.ops[0]._id+data.ops[0].creador+" "+data.ops[0].nombre+" "+data.ops[0].informacion);
-    });
-
-    $("#lista").click(function(){
-      var listaText=document.getElementById("listaText").value;
-      var tableroText=document.getElementById("tableroText").value;
-      console.log("CREANDO lista");
-      socket.emit("lista",{"tablero":tableroText},{"creador":"777","nombre":listaText,"usuarios":[{"id":123}]});
-    })
-
-    $("#tarjeta").click(function(){
-      var listaText=document.getElementById("listaText").value;
-      var tarjetaText=document.getElementById("tarjetaText").value;
-      var tableroText=document.getElementById("tableroText").value;
-      console.log("CREANDO tarjeta");
-      socket.emit("tarjeta",{"tablero":tableroText},{"lista":listaText},{"creador":"Mario","nombre":tarjetaText,"usuarios":[{"id":1008000}]});
-    })
-
-      */
-
-    })
-  script(src="/js/tablero.js")
+    
     
   div(class="content-fluid")
       div(class="row text-center panel panel-primary")
