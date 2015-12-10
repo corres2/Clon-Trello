@@ -34,7 +34,8 @@ app.use(express.static(path.join(__dirname,'public')));
 //Marco la ruta de acceso y la vista a mostrar
 app.get('/', routes.index);
 app.get('/signin', routes.signin);
-app.get('/tablero/:nametab', routes.tablero);
+app.get('/index', routes.tablero);
+app.get('/tablero/:nametab', routes.listas);
 /** 
 Configuracion del servidor socket.io
 */
