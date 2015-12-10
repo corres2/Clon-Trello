@@ -24,7 +24,7 @@ $(document).ready(function(){
       });
     });
 
-    $('#addlist').click(function(){
+   $('#addlist').click(function(){
         $('#guardar').show();
         $('#cancelar').show();
         //alert("Se creo lista llamada:");
@@ -43,7 +43,7 @@ $(document).ready(function(){
         $('#addlist').val('');
         $('#guardar').hide();
         $('#cancelar').hide();
-        alert("Se creo lista llamada:"+list);
+        //alert("Se creo lista llamada:"+list);
   }); 
 
     $('#addlist').keyup(function(e){//llama al click de el boton 'guardar'
@@ -55,28 +55,48 @@ $(document).ready(function(){
     //Notificaciones
     socket.on('creado', function(data){//da el id y los demas datos que se ingresaron en mongo
        // console.log(data.ops[0]._id+" "+data.ops[0].creador+" "+data.ops[0].nombre);//recibe informacion de el resultado
-        $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta"><p>'+data.ops[0].nombre+'</p>'+'<h3>'+data.ops[0].nombre+'</h3><a href="#" class="addtarjeta" style="color:white;">Añadir nueva tarjeta</a></div></div>');
+       //alert(data.ops[0]._id);
+        $("#listnew").after('<div class="list-group col-md-3"><div class="list-group-item active text-center tarjeta" id="t'+data.ops[0]._id+'"><p>'+data.ops[0].nombre+'</p>'+'<h3 id="ip'+data.ops[0]._id+'">'+data.ops[0].nombre+'</h3><a href="#" class="addtarjeta" id="'+data.ops[0]._id+'" style="color:white;">'+data.ops[0]._id+'</a><div id="m'+data.ops[0]._id+'" class="mostrar" style="display:none;"><input type="text" class="form-control" id="in'+data.ops[0]._id+'" placeholder="Nombre de la nueva tarjeta"/><a class="btn btn-success col-md-offset-0" id="guardartar">Guardar</a><a class="btn btn-danger col-md-offset-0" id="cancelartar">Cancelar</a></div></div></div>');
         console.log(data.ops[0].creador+" ha creado la lista '"+data.ops[0].nombre+"'");
     });
 
     //Mostrar input para añadir lista
-    $(document).on("click",".addtarjeta",function() {
-      //alert($('.addtarjeta').parent());
-      $('.addtarjeta').hide();
-      $('#target').show();
+    $(document).on("click",".addtarjeta",function(event) {
+      idd = $(this).attr("id");
+      id = ('t'+$(this).attr("id")).toString();//Retorna el nombre de id 
+      padre = $(this).parent();//Retorna el padre del elemento seleccionado
+      $.each( padre, function( key, value ){
+        v = (value.id).toString();
+        if(v == id){
+          //alert(value.id+"=="+id);
+          $('a#'+idd).hide();
+          $('div#m'+idd).show();
+        }
+      });
     });
+    //Cancela el agregado de tarjeta nueva
     $(document).on("click","#cancelartar",function() {
-      $('#target').hide();
-      $('.addtarjeta').show();
+      padre = $(this).parent(); 
+      $.each( padre, function( key, value ){
+        nueva = (value.id).replace('m','');
+        $('div#'+value.id).hide();
+        $('a#'+nueva).show();
+      });
     });
+    //Guarda la nueva tarjeta y la muestra en la lista
     $(document).on("click","#guardartar",function() {
-      name=$('#nametag').val();
-      t=$("#nn").text()
-      padre = $('.addtarjeta').parent();
-      socket.emit('tarjeta',{"tablero":t},{'list':"rf","nombre":name});
-      $('#name').val('');
-      $('#target').hide();
-      $('.addtarjeta').show();
+      padre = $(this).parent();
+      $.each( padre, function( key, value ){
+        nueva = (value.id).replace('m','');
+        name=$('input#in'+nueva).val();
+        t=$("#nn").text();
+        socket.emit('tarjeta',{"tablero":t},{'list':"rf","nombre":name});
+        $('input#in'+nueva).val('');
+        $('div#'+value.id).hide();
+        $('a#'+nueva).show();
+        //Agrega el nombre de tarjeta en la lista
+        $("h3#ip"+nueva).after('<div class="row list-group col-md-13 col-xs-13 col-sm-13"><p class="list-group-item list-group-item-warning text-center">'+name+'</p></div>');
+      });
     });
 });
 
