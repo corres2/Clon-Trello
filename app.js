@@ -33,7 +33,7 @@ MongoClient.connect("mongodb://localhost:27017/tabl", function(err, db) {
 app.use(express.static(path.join(__dirname,'public')));
 //Marco la ruta de acceso y la vista a mostrar
 app.get('/', routes.index);
-app.get('/registro', routes.login);
+app.get('/signin', routes.signin);
 app.get('/tablero/:nametab', routes.tablero);
 /** 
 Configuracion del servidor socket.io

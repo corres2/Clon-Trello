@@ -1,4 +1,4 @@
-/*$(document).ready(function(){
+$(document).ready(function(){
 
   var URL = window.location.protocol + "//" + window.location.host;
     console.log("CONECTADO A SOCKETS EN login.JS");
@@ -56,4 +56,3 @@
 
 
 
-*/
