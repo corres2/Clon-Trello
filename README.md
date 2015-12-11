@@ -4,6 +4,13 @@ Gepeto es una aplicación basada en la web de aplicaciones de gestión de proyec
   - Tener Ubuntu 12.04 o superior
   - Navegador web
 
+##### Funcionalidades
+  - Crear Tablero
+  - Crear Tarjeta
+  - Crear Usuario
+  - Crear Lista
+  - Login
+  - Colaborativo
 
 ##### Stack de Tecnologías
 GEPETO utiliza los siguientes stack de tecnologías:
@@ -26,7 +33,7 @@ $ sudo apt-get install mongodb
 ```
 Ejecutamos el siguiente comando para instalar npm:
 ```sh
-$ sudo apt-getr install npm
+$ sudo apt-get install npm
 ```
 Ejecutamos el siguiente comando para poder instalar todos repositorios de npm:
 ```sh
@@ -51,7 +58,7 @@ $ sudo npm -g nodemon
 
 ##### License
 > Este proyecto fue realizado bajo la supervisión
-> del Ing. Oscar Uriel Pérez en la materia de 
+> del Ing. Oscar Uriel Pérez Vásquez en la materia de 
 > Proyectos de Tecnologías de Información
 > alumnos de la carrera de Licenciatura en
 > Informática.
